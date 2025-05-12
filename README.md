@@ -35,7 +35,7 @@ It will run on Windows as long as Python is installed; please adapt the commands
 
 ### Arguments
 
-| 引数                              | 説明                                                                                                 |
+| Argument                              | Description                                                                                                 |
 |-----------------------------------|------------------------------------------------------------------------------------------------------|
 | `definitions.json`                | Path to the **JSON** file defining pathway‐to‐enzyme rules. Specifies which KO IDs are required for each pathway. |
 | `input_data.(tsv)`                | Path to the input file: either a TSV (one KO ID per line).      |
