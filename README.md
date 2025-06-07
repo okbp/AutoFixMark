@@ -66,8 +66,10 @@ DC/4HB  N
 rGly    N
 ```
 ## Paper
-Will be soon..
-
+Will be soon.
 
 ## License
 MIT License
+
+## Contact
+- Hiroshi Mori (National Institute of Genetics, Japan): hmori_@_nig.ac.jp   (please change _@_ to @).
