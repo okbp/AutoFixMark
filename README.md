@@ -70,4 +70,4 @@ Will be soon..
 
 
 ## License
-GNU GPL v3 
+MIT License
