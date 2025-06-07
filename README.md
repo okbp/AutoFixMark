@@ -66,7 +66,7 @@ DC/4HB  N
 rGly    N
 ```
 
-## Appendix. How to generate a list of KO IDs for a genome:
+## Appendix: How to generate a list of KO IDs for a genome:
 1. Perform gene prediction using tools such as DFAST, Prokka, or Prodigal to identify protein-coding genes.
 2. Assign KO IDs to the predicted protein sequences using tools such as KofamScan, GhostKOALA, or KofamKOALA.
 3. Format the KO ID list as a TSV file, with one KO ID per line.
