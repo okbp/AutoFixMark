@@ -18,8 +18,8 @@ Given a JSON file of pathway‐definition rules and an input TSV of KO IDs, this
 
 1. Clone this repository (or download the script):
 ```bash
-git clone https://github.com/h-mori/#TODO tool name.git
-cd #TODO tool name#
+git clone https://github.com/h-mori/AutoFixMark.git
+cd AutoFixMark
 ```
 
 ## Usage
@@ -65,6 +65,12 @@ WL      N
 DC/4HB  N
 rGly    N
 ```
+
+## Appendix. How to generate a list of KO IDs for a genome:
+1. Perform gene prediction using tools such as DFAST, Prokka, or Prodigal to identify protein-coding genes.
+2. Assign KO IDs to the predicted protein sequences using tools such as KofamScan, GhostKOALA, or KofamKOALA.
+3. Format the KO ID list as a TSV file, with one KO ID per line.
+
 ## Paper
 Will be soon.
 
