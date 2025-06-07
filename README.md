@@ -78,4 +78,4 @@ Will be soon.
 MIT License
 
 ## Contact
-- Hiroshi Mori (National Institute of Genetics, Japan): hmori_@_nig.ac.jp   (please change _@_ to @).
+- Hiroshi Mori (National Institute of Genetics, Japan): hmori_@_nig.ac.jp   (please change "_@_" to @).
