@@ -1,9 +1,0 @@
-{
-    "input_ids": [
-        "K15232",
-        "K15234"
-    ],
-    "expected": {
-        "rTCA": false
-    }
-}

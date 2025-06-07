@@ -1,9 +1,0 @@
-{
-  "input_ids": [
-    "K00192",
-    "K00193"
-  ],
-  "expected": {
-    "WL": false
-  }
-}

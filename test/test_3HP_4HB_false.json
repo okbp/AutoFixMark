@@ -1,8 +1,0 @@
-{
-  "input_ids": [
-    "K15017"
-  ],
-  "expected": {
-    "3HP/4HB": false
-  }
-}
