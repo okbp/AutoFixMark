@@ -1,0 +1,277 @@
+{
+    "version": "0.0.1",
+    "reference_database": "KEGG",
+    "pathway_list": [
+        {
+            "pathway_name": "CBB",
+            "definition": {
+                "type": "all_of",
+                "list": [
+                    {
+                        "type": "all_of",
+                        "enzyme_name": "phosphoribulokinase",
+                        "ec": "2.7.1.19",
+                        "id_list": [
+                            "K00855"
+                        ]
+                    },
+                    {
+                        "type": "all_of",
+                        "enzyme_name": "ribulose-bisphosphate carboxylase large chain",
+                        "ec": "4.1.1.39",
+                        "id_list": [
+                            "K01601"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "pathway_name": "rTCA",
+            "definition": {
+                "type": "one_of",
+                "list": [
+                    {
+                        "type": "all_of",
+                        "enzyme_name": "ATP-citrate lyase",
+                        "ec": "2.3.3.8",
+                        "id_list": [
+                            "K15230",
+                            "K15231"
+                        ]
+                    },
+                    {
+                        "type": "all_of",
+                        "list": [
+                            {
+                                "type": "all_of",
+                                "enzyme_name": "citryl-CoA synthetase",
+                                "ec": "6.2.1.18",
+                                "id_list": [
+                                    "K15233",
+                                    "K15232"
+                                ]
+                            },
+                            {
+                                "type": "all_of",
+                                "enzyme_name": "citryl-CoA lyase",
+                                "ec": "4.1.3.34",
+                                "id_list": [
+                                    "K15234"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "pathway_name": "WL",
+            "definition": {
+                "type": "one_of",
+                "list": [
+                    {
+                        "type": "all_of",
+                        "list": [
+                            {
+                                "type": "all_of",
+                                "enzyme_name": "anaerobic carbon-monoxide dehydrogenase catalytic subunit",
+                                "ec": "1.2.7.4",
+                                "id_list": [
+                                    "K00198"
+                                ]
+                            },
+                            {
+                                "type": "all_of",
+                                "enzyme_name": "acetyl-CoA synthase",
+                                "ec": "2.3.1.169",
+                                "id_list": [
+                                    "K14138"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "all_of",
+                        "list": [
+                            {
+                                "type": "all_of",
+                                "enzyme_name": "CODH/ACS complex subunit alpha + epsilon",
+                                "ec": "1.2.7.4",
+                                "id_list": [
+                                    "K00192",
+                                    "K00195"
+                                ]
+                            },
+                            {
+                                "type": "all_of",
+                                "enzyme_name": "CODH/ACS complex subunit beta + delta + gamma",
+                                "ec": "2.3.1.169",
+                                "id_list": [
+                                    "K00193",
+                                    "K00194",
+                                    "K00197"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "pathway_name": "3HP",
+            "definition": {
+                "type": "all_of",
+                "list": [
+                    {
+                        "type": "all_of",
+                        "enzyme_name": "malonyl-CoA reductase / 3-hydroxypropionate dehydrogenase (NADP+)",
+                        "ec": "1.2.1.75/1.1.1.298",
+                        "id_list": [
+                            "K14468"
+                        ]
+                    },
+                    {
+                        "type": "all_of",
+                        "enzyme_name": "succinyl-CoA-L-malate CoA-transferase",
+                        "ec": "2.8.3.22",
+                        "id_list": [
+                            "K14471",
+                            "K14472"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "pathway_name": "3HP/4HB",
+            "definition": {
+                "type": "all_of",
+                "list": [
+                    {
+                        "type": "one_of",
+                        "list": [
+                            {
+                                "type": "all_of",
+                                "enzyme_name": "malonyl-CoA reductase (malonate semialdehyde-forming)",
+                                "ec": "1.2.1.75",
+                                "id_list": [
+                                    "K15017"
+                                ]
+                            },
+                            {
+                                "type": "all_of",
+                                "enzyme_name": "acetyl-CoA carboxylase",
+                                "ec": "6.4.1.2",
+                                "id_list": [
+                                    "K18603",
+                                    "K18605",
+                                    "K18604"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "one_of",
+                        "list": [
+                            {
+                                "type": "all_of",
+                                "enzyme_name": "3-hydroxypropionate dehydrogenase (NADP+)",
+                                "ec": "1.1.1.298",
+                                "id_list": [
+                                    "K15039"
+                                ]
+                            },
+                            {
+                                "type": "all_of",
+                                "enzyme_name": "malonic semialdehyde reductase",
+                                "ec": "1.1.1.298",
+                                "id_list": [
+                                    "K18602"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "all_of",
+                        "enzyme_name": "4-hydroxybutanoyl-CoA dehydratase",
+                        "ec": "4.2.1.120",
+                        "id_list": [
+                            "K14534"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "pathway_name": "DC/4HB",
+            "definition": {
+                "type": "all_of",
+                "list": [
+                    {
+                        "type": "all_of",
+                        "enzyme_name": "phosphoenolpyruvate carboxylase",
+                        "ec": "4.1.1.31",
+                        "id_list": [
+                            "K01595"
+                        ]
+                    },
+                    {
+                        "type": "one_of",
+                        "enzyme_name": "fumarate hydratase",
+                        "ec": "4.2.1.2",
+                        "id_list": [
+                            "K01676",
+                            "K01677",
+                            "K01678"
+                        ]
+                    },
+                    {
+                        "type": "one_of",
+                        "enzyme_name": "phosphoenolpyruvate carboxylase",
+                        "ec": "6.2.1.40",
+                        "id_list": [
+                            "K18861",
+                            "K14467"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "pathway_name": "rGly",
+            "definition": {
+                "type": "all_of",
+                "list": [
+                    {
+                        "type": "at_least",
+                        "enzyme_name": "glycine cleavage system",
+                        "ec": "1.4.1.27",
+                        "id_list": [
+                            "K00283",
+                            "K00282",
+                            "K02437",
+                            "K00605"
+                        ],
+                        "min": 3
+                    },
+                    {
+                        "type": "at_least",
+                        "enzyme_name": "glycine reductase",
+                        "ec": "1.21.4.2",
+                        "id_list": [
+                            "K10671",
+                            "K10672",
+                            "K00384",
+                            "K21577",
+                            "K21576",
+                            "K03671",
+                            "K10670"
+                        ],
+                        "min": 5
+                    }
+                ]
+            }
+        }
+    ]
+}

@@ -1,0 +1,8 @@
+{
+    "input_ids": [
+        "K00855"
+    ],
+    "expected": {
+        "CBB": false
+    }
+}

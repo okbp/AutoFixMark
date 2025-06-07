@@ -1,0 +1,9 @@
+{
+  "input_ids": [
+    "K01595",
+    "K01676"
+  ],
+  "expected": {
+    "DC/4HB": false
+  }
+}

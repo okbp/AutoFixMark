@@ -1,0 +1,8 @@
+{
+  "input_ids": [
+    "K00198"
+  ],
+  "expected": {
+    "WL": false
+  }
+}
