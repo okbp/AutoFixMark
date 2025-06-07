@@ -37,8 +37,8 @@ It will run on Windows as long as Python is installed; please adapt the commands
 
 | Argument                              | Description                                                                                                 |
 |-----------------------------------|------------------------------------------------------------------------------------------------------|
-| `definitions.json`                | Path to the **JSON** file defining pathway‐to‐enzyme rules. Specifies which KO IDs are required for each pathway. |
-| `input_data.(tsv)`                | Path to the input file: either a TSV (one KO ID per line).      |
+| `definitions/kegg_key_enzymes.json`                | Path to the **JSON** file defining the reference pathway‐to‐enzyme rules. Specifies which KO IDs are required for each pathway. |
+| `input_data.(tsv)`                | Path to the input file: a TSV (one KO ID per line).      |
 | `output_results.tsv`              | Path to the output TSV file. Each line will be formatted as `pathway_name<TAB>Y/N`.    |
 
 ## Example
