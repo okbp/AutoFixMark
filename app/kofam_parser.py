@@ -10,26 +10,23 @@ from typing import Dict, List, Optional, Set, Tuple
 
 
 @dataclass
-class Hit:
+class Row:
     """Data class representing a single hit information"""
     asterisk: bool
     original_columns: List[str]
     ko: str
-    gene_name: str
+    gene: str
 
 
-def parse_tsv_content(content: str) -> Tuple[Optional[str], Dict[str, List[Hit]]]:
+def group_by_genes(result: str):
     """Parse TSV file content and convert to data structure."""
-    gene_data: Dict[str, List[Hit]] = {}
-    header_line = None
+    gene_data: Dict[str, List[Row]] = {}
 
-    for line in content.splitlines():
+    for line in result.splitlines():
         line = line.rstrip()
 
         # Save the first comment line as header if it exists
         if line.startswith('#'):
-            if header_line is None:
-                header_line = line
             continue
 
         # Skip empty lines
@@ -42,25 +39,25 @@ def parse_tsv_content(content: str) -> Tuple[Optional[str], Dict[str, List[Hit]]
 
         # Parse columns
         asterisk_mark = columns[0] == '*'
-        gene_name = columns[1]
+        gene = columns[1]
         ko = columns[2]
 
-        # Save hits by gene_name
-        if gene_name not in gene_data:
-            gene_data[gene_name] = []
+        # Save hits by gene
+        if gene not in gene_data:
+            gene_data[gene] = []
 
-        hit = Hit(
+        hit = Row(
             asterisk=asterisk_mark,
             original_columns=columns,
             ko=ko,
-            gene_name=gene_name
+            gene=gene
         )
-        gene_data[gene_name].append(hit)
+        gene_data[gene].append(hit)
     
-    return header_line, gene_data
+    return gene_data
 
 
-def determine_selected_indices(hits: List[Hit], top_n: int) -> Set[int]:
+def determine_selected_indices(hits: List[Row], top_n: int):
     """
     Determine which hit indices should be selected for KO output.
     Returns set of indices that should be selected.
@@ -76,29 +73,19 @@ def determine_selected_indices(hits: List[Hit], top_n: int) -> Set[int]:
     return selected_indices
 
 
-def format_detail_output(
-    gene_data: Dict[str, List[Hit]],
-    header_line: Optional[str],
-    top_n: int,
-    detail_top: int
-) -> List[str]:
-    """Generate output lines for detail mode."""
+def format_detail_output(gene_data: Dict[str, List[Row]], top_n: int, detail_top: int):
+    """
+    Generate output lines for detail mode.
+    Output the Top N results specified by the detail_top argument, and mark selected KO numbers with 'Y' in the hit column.
+    """
     output_lines = []
     
     # Write header
-    if header_line:
-        # Remove the leading # and split
-        header_cols = header_line.lstrip('#').split('\t')
-        header_str = '\t'.join(header_cols[1:])
-        output_lines.append(f"rank\thit\tasterisk_mark\t{header_str}")
-    else:
-        # Default header if no header in input file
-        output_lines.append("rank\thit\tasterisk_mark\tgene_name\tKO\tthreshold\tscore\te_value\tKO_definition")
+    output_lines.append("hit\trank\tasterisk_mark\tgene\tKO\tthreshold\tscore\te_value\tKO_definition")
     
-    # Process each gene_name
-    for i, (gene_name, hits) in enumerate(gene_data.items()):
-        print(f"Gene {gene_name}: {len(hits)} hits")
-        
+    # Process each gene
+    for i, (gene, hits) in enumerate(gene_data.items()):
+
         # Add separator line between genes (except before the first gene)
         if i > 0:
             output_lines.append('-' * 100)
@@ -116,12 +103,12 @@ def format_detail_output(
                 
                 # Output: rank, hit mark, asterisk_mark, then all original columns except the first one
                 cols_str = '\t'.join(hit.original_columns[1:])
-                output_lines.append(f"{original_rank}\t{hit_mark}\t{asterisk_mark}\t{cols_str}")
+                output_lines.append(f"{hit_mark}\t{original_rank}\t{asterisk_mark}\t{cols_str}")
 
     return output_lines
 
 
-def format_ko_output(gene_data: Dict[str, List[Hit]], top_n: int) -> List[str]:
+def format_ko_output(gene_data: Dict[str, List[Row]], top_n: int):
     """Generate output lines for KO-only mode."""
     unique_kos: Set[str] = set()
 
@@ -139,49 +126,35 @@ def format_ko_output(gene_data: Dict[str, List[Hit]], top_n: int) -> List[str]:
     return sorted(unique_kos)
 
 
-def read_tsv_file(file_path: str) -> str:
-    """Read file and return its content as string."""
+def load_tsv(file_path: str):
+    """Read a TSV file and return its content as string."""
     with open(file_path, 'r') as file:
         return file.read()
 
 
-def write_output_file(file_path: str, lines: List[str]) -> None:
-    """Write list of lines to file."""
-    with open(file_path, 'w') as file:
-        for line in lines:
-            file.write(line + '\n')
-
-
-def process_tsv_file(
-    input_file: str, 
-    output_file: str, 
-    top_n: int = 10,
-    detail_mode: bool = False, 
-    detail_top: int = 10
-) -> None:
-    """Process a single TSV file and extract top N hits per gene."""
-    # Read file
-    content = read_tsv_file(input_file)
+def parse_kofamscan_result_file(input_file: str, output_file: str, top_n: int = 10, detail_mode: bool = False, detail_top: int = 10):
+    """Parse the KofamScan result file and output a list of selected KO numbers"""
+    # Load input KofamScan result file
+    kofamscan_results = load_tsv(input_file)
     
-    # Parse content
-    header_line, gene_data = parse_tsv_content(content)
-    
-    # Format output
-    if detail_mode:
-        output_lines = format_detail_output(gene_data, header_line, top_n, detail_top)
-    else:
+    # Parse KofamScan results and group by genes
+    gene_data = group_by_genes(kofamscan_results)
+
+    if detail_mode: # Detail mode: To check the selected row
+        output_lines = format_detail_output(gene_data, top_n, detail_top)
+    else: # Nomal mode: output only KO numbers
         output_lines = format_ko_output(gene_data, top_n)
     
-    # Write output
-    write_output_file(output_file, output_lines)
-    
-    print(f"Output written to: {output_file}")
+    # Write results to the output file in TSV format
+    with open(output_file, 'w', encoding='utf-8') as out:
+        if output_lines:  # 空のリストでない場合のみ書き込む
+            out.write('\n'.join(output_lines))
 
 
 def main():
-    """Main function to process a single TSV file."""
+    """Main function to process a Kofamscan result file."""
     parser = argparse.ArgumentParser(
-        description='Process KOfam TSV files and extract top hits per gene.',
+        description='Process Kofamscan result TSV files and extract hits KO numbers.',
         formatter_class=argparse.RawDescriptionHelpFormatter
     )
     
@@ -192,10 +165,10 @@ def main():
     parser.add_argument('--top', 
                         type=int, 
                         default=1,
-                        help='Number of top hits to select for KO extraction (default: 1)')
+                        help='Number of top hits to select for KO extraction (default: 1, selected only if no line is marked with an asterisk)')
     parser.add_argument('--detail', 
                         action='store_true',
-                        help='Output detailed information with headers (default: output unique KO values only)')
+                        help='Output detailed information with headers, and mark selected KO numbers with "Y" in the hit column (default: output unique KO numbers only)')
     parser.add_argument('--detail-top', 
                         type=int, 
                         default=10,
@@ -203,22 +176,26 @@ def main():
     
     args = parser.parse_args()
     
+    # Check that input TSV exists
     if not os.path.exists(args.input_file):
         print(f"Error: Input file '{args.input_file}' does not exist")
         sys.exit(1)
     
-    # Create output directory if it doesn't exist
-    output_dir = os.path.dirname(args.output_file)
-    if output_dir and not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-        print(f"Created directory: {output_dir}")
+    # Check that output directory exists and is writable
+    out_dir = os.path.dirname(args.output_file) or '.'
+    if not os.path.isdir(out_dir):
+        print(f"Error: Output directory '{out_dir}' does not exist.", file=sys.stderr)
+        sys.exit(1)
+    if not os.access(out_dir, os.W_OK):
+        print(f"Error: No write permission in output directory '{out_dir}'.", file=sys.stderr)
+        sys.exit(1)
     
-    # Process the TSV file
-    process_tsv_file(args.input_file, args.output_file, args.top, args.detail, args.detail_top)
-    
-    print("Processing completed!")
-    print(f"Output file: {args.output_file}")
+    # Parse the KofamScan result file and output a list of selected KO numbers
+    parse_kofamscan_result_file(args.input_file, args.output_file, args.top, args.detail, args.detail_top)
 
 
 if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("Usage: python3 ./kofamscan_parser.py ./example/kofamscan_result.tsv ./example/ko_list.tsv", file=sys.stderr)
+        sys.exit(1)
     main()

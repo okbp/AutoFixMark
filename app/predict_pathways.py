@@ -101,6 +101,6 @@ def main(def_file_path, input_file_path, output_file_path):
 
 if __name__ == "__main__":
     if len(sys.argv) != 4:
-        print("Usage: python3 ./app/predict_pathways.py ./definitions/kegg_key_enzymes.json ./test/sample.tsv ./output/sample.out", file=sys.stderr)
+        print("Usage: python3 ./app/predict_pathways.py ./definitions/kegg_key_enzymes.json ./example/ko_list.tsv ./example/result.tsv", file=sys.stderr)
         sys.exit(1)
     main(sys.argv[1], sys.argv[2], sys.argv[3])
