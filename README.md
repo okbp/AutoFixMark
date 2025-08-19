@@ -71,6 +71,13 @@ rGly    N
 2. Assign KO IDs to the predicted protein sequences using tools such as KofamScan, GhostKOALA, or KofamKOALA.
 3. Format the KO ID list as a TSV file, with one KO ID per line.
 
+### Extract KO ID list from KofamScan result file:
+```
+python3 ./app/kofamscan_parser.py \
+  ./example/kofam_result.tsv \
+  ./example/ko_list.tsv
+```
+
 ## Paper
 Will be soon.
 
