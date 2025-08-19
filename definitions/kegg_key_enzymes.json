@@ -1,5 +1,5 @@
 {
-    "version": "0.0.1",
+    "version": "0.0.2",
     "reference_database": "KEGG",
     "pathway_list": [
         {
@@ -21,6 +21,14 @@
                         "ec": "4.1.1.39",
                         "id_list": [
                             "K01601"
+                        ]
+                    },
+                    {
+                        "type": "all_of",
+                        "enzyme_name": "ribulose-phosphate 3-epimerase",
+                        "ec": "5.1.3.1",
+                        "id_list": [
+                            "K01783"
                         ]
                     }
                 ]
@@ -228,11 +236,19 @@
                     },
                     {
                         "type": "one_of",
-                        "enzyme_name": "phosphoenolpyruvate carboxylase",
+                        "enzyme_name": "4-hydroxybutyrate-CoA ligase (AMP-forming)",
                         "ec": "6.2.1.40",
                         "id_list": [
                             "K18861",
                             "K14467"
+                        ]
+                    },
+                    {
+                        "type": "all_of",
+                        "enzyme_name": "4-hydroxybutanoyl-CoA dehydratase",
+                        "ec": "4.2.1.120",
+                        "id_list": [
+                            "K14534"
                         ]
                     }
                 ]
