@@ -141,13 +141,45 @@ def format_ko_output(gene_data: Dict[str, List[Row]], top_n: int, min_score_rati
     return sorted(unique_kos)
 
 
+def format_gene_output(gene_data: Dict[str, List[Row]], top_n: int, min_score_ratio: float = None):
+    """Generate output lines for gene mode with detailed hit information."""
+    output_lines = []
+
+    # Write header
+    output_lines.append("KO\tgene name\tthrshld\tscore\tE-value\tmark")
+
+    # Process each gene
+    for gene_name, hits in gene_data.items():
+        # Use common function to determine which rows to select
+        selected_indices = determine_selected_indices(hits, top_n, min_score_ratio)
+
+        # Output selected hits
+        for index in selected_indices:
+            if index < len(hits):
+                hit = hits[index]
+                # Extract relevant columns from original data
+                # columns[0] = asterisk mark, columns[1] = gene, columns[2] = KO
+                # columns[3] = thrshld, columns[4] = score, columns[5] = E-value
+                cols = hit.original_columns
+                ko = cols[2]
+                gene = cols[1]
+                thrshld = cols[3] if len(cols) > 3 else ''
+                score = cols[4] if len(cols) > 4 else ''
+                e_value = cols[5] if len(cols) > 5 else ''
+                mark = '*' if hit.asterisk else ''
+
+                output_lines.append(f"{ko}\t{gene}\t{thrshld}\t{score}\t{e_value}\t{mark}")
+
+    return output_lines
+
+
 def load_tsv(file_path: str):
     """Read a TSV file and return its content as string."""
     with open(file_path, 'r') as file:
         return file.read()
 
 
-def parse_kofamscan_result_file(input_file: str, output_file: str, top_n: int = 10, detail_mode: bool = False, detail_top: int = 10, min_score_ratio: float = None):
+def parse_kofamscan_result_file(input_file: str, output_file: str, top_n: int = 10, detail_mode: bool = False, detail_top: int = 10, min_score_ratio: float = None, gene_mode: bool = False):
     """Parse the KofamScan result file and output a list of selected KO numbers"""
     # Load input KofamScan result file
     kofamscan_results = load_tsv(input_file)
@@ -157,6 +189,8 @@ def parse_kofamscan_result_file(input_file: str, output_file: str, top_n: int = 
 
     if detail_mode:  # Detail mode: To check the selected row
         output_lines = format_detail_output(gene_data, top_n, detail_top, min_score_ratio)
+    elif gene_mode:  # Gene mode: output KO with gene details
+        output_lines = format_gene_output(gene_data, top_n, min_score_ratio)
     else:  # Normal mode: output only KO numbers
         output_lines = format_ko_output(gene_data, top_n, min_score_ratio)
     
@@ -192,6 +226,9 @@ def main():
                         type=float,
                         default=None,
                         help='Minimum score/threshold ratio (0 < ratio < 1) for selecting hits without asterisk. If not specified, no ratio filtering is applied.')
+    parser.add_argument('--gene',
+                        action='store_true',
+                        help='Output KO numbers with gene details including threshold, score, E-value, and asterisk mark')
 
     args = parser.parse_args()
 
@@ -216,7 +253,7 @@ def main():
         sys.exit(1)
     
     # Parse the KofamScan result file and output a list of selected KO numbers
-    parse_kofamscan_result_file(args.input_file, args.output_file, args.top, args.detail, args.detail_top, args.min_score_ratio)
+    parse_kofamscan_result_file(args.input_file, args.output_file, args.top, args.detail, args.detail_top, args.min_score_ratio, args.gene)
 
 
 if __name__ == "__main__":
