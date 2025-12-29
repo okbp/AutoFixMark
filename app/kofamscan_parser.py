@@ -6,6 +6,7 @@ import sys
 import argparse
 from dataclasses import dataclass
 from typing import Dict, List, Set
+from version import __version__
 
 
 @dataclass
@@ -229,6 +230,9 @@ def main():
     parser.add_argument('--gene',
                         action='store_true',
                         help='Output KO numbers with gene details including threshold, score, E-value, and asterisk mark')
+    parser.add_argument('--version',
+                        action='version',
+                        version=f'%(prog)s {__version__}')
 
     args = parser.parse_args()
 
