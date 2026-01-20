@@ -78,6 +78,30 @@ python3 ./app/kofamscan_parser.py \
   ./example/ko_list.tsv
 ```
 
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `input_file` | Path to the KofamScan result **TSV file** (required). |
+| `output_file` | Path to the **output TSV file** (required). |
+| `--top N` | Number of top hits to select for KO extraction when no asterisk is present (default: 1). |
+| `--min-score-ratio R` | Minimum score/threshold ratio (0 < R < 1) for selecting hits without asterisk. If not specified, no ratio filtering is applied. |
+| `--gene` | Output KO numbers with gene details including threshold, score, E-value, and asterisk. |
+| `--detail` | Output detailed information with headers. Selected KO numbers are marked with "Y" in the hit column. |
+| `--detail-top N` | Number of top hits to display in detail mode (default: 10). |
+
+In the KofamScan results, an asterisk is assigned to KOs whose score exceeds the threshold (see: https://academic.oup.com/bioinformatics/article/36/7/2251/5631907). However, in some cases, better annotation results can be obtained by including hits without the asterisk.         
+                                                                                                                                                                                                                                                                               
+For genes without the asterisk, you can filter assignments based on the score/threshold ratio. In the example below, the top hit is selected for genes without an asterisk `--top 1`, but assignments with a ratio below 10% `--min-score-ratio 0.1` are excluded as low-quality. The `--detail` mode outputs selected KOs in a human-readable format for manual inspection. 
+
+```
+python3 ./app/kofamscan_parser.py \
+  ./example/kofam_result_wo_asterisk.tsv \
+  ./example/ko_list_qc_0.1.detail.tsv \
+  --top 1 \
+  --min-score-ratio 0.1 \
+  --detail
+```
 ## Paper
 Will be soon.
 
