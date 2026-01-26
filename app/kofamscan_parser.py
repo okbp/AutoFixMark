@@ -180,25 +180,44 @@ def load_tsv(file_path: str):
         return file.read()
 
 
-def parse_kofamscan_result_file(input_file: str, output_file: str, top_n: int = 10, detail_mode: bool = False, detail_top: int = 10, min_score_ratio: float = None, gene_mode: bool = False):
-    """Parse the KofamScan result file and output a list of selected KO numbers"""
+def generate_output_filename(base_file: str, suffix: str) -> str:
+    """Generate output filename by adding suffix before the extension."""
+    if '.' in os.path.basename(base_file):
+        name, ext = os.path.splitext(base_file)
+        return f"{name}_{suffix}{ext}"
+    else:
+        return f"{base_file}_{suffix}"
+
+
+def parse_kofamscan_result_file(input_file: str, output_file: str, top_n: int = 1, min_score_ratio: float = None):
+    """Parse the KofamScan result file and output three files: KO list, gene details, and detail view"""
     # Load input KofamScan result file
     kofamscan_results = load_tsv(input_file)
 
     # Parse KofamScan results and group by genes
     gene_data = group_by_genes(kofamscan_results)
 
-    if detail_mode:  # Detail mode: To check the selected row
-        output_lines = format_detail_output(gene_data, top_n, detail_top, min_score_ratio)
-    elif gene_mode:  # Gene mode: output KO with gene details
-        output_lines = format_gene_output(gene_data, top_n, min_score_ratio)
-    else:  # Normal mode: output only KO numbers
-        output_lines = format_ko_output(gene_data, top_n, min_score_ratio)
-    
-    # Write results to the output file in TSV format
+    # Generate output filenames
+    gene_output_file = generate_output_filename(output_file, "gene")
+    detail_output_file = generate_output_filename(output_file, "detail")
+
+    # Output 1: KO list only (default)
+    ko_lines = format_ko_output(gene_data, top_n, min_score_ratio)
     with open(output_file, 'w', encoding='utf-8') as out:
-        if output_lines:
-            out.write('\n'.join(output_lines))
+        if ko_lines:
+            out.write('\n'.join(ko_lines))
+
+    # Output 2: Gene details
+    gene_lines = format_gene_output(gene_data, top_n, min_score_ratio)
+    with open(gene_output_file, 'w', encoding='utf-8') as out:
+        if gene_lines:
+            out.write('\n'.join(gene_lines))
+
+    # Output 3: Detail view (detail_top is fixed at 10)
+    detail_lines = format_detail_output(gene_data, top_n, detail_top=10, min_score_ratio=min_score_ratio)
+    with open(detail_output_file, 'w', encoding='utf-8') as out:
+        if detail_lines:
+            out.write('\n'.join(detail_lines))
 
 
 def main():
@@ -212,24 +231,14 @@ def main():
                         help='Path to the input TSV file')
     parser.add_argument('output_file', 
                         help='Path to the output TSV file')
-    parser.add_argument('--top', 
-                        type=int, 
+    parser.add_argument('--top',
+                        type=int,
                         default=1,
                         help='Number of top hits to select for KO extraction (default: 1, selected only if no line is marked with an asterisk)')
-    parser.add_argument('--detail', 
-                        action='store_true',
-                        help='Output detailed information with headers, and mark selected KO numbers with "Y" in the hit column (default: output unique KO numbers only)')
-    parser.add_argument('--detail-top',
-                        type=int,
-                        default=10,
-                        help='Number of top hits to display in detail mode (default: 10)')
     parser.add_argument('--min-score-ratio',
                         type=float,
                         default=None,
                         help='Minimum score/threshold ratio (0 < ratio < 1) for selecting hits without asterisk. If not specified, no ratio filtering is applied.')
-    parser.add_argument('--gene',
-                        action='store_true',
-                        help='Output KO numbers with gene details including threshold, score, E-value, and asterisk mark')
     parser.add_argument('--version',
                         action='version',
                         version=f'%(prog)s {__version__}')
@@ -256,8 +265,8 @@ def main():
         print(f"Error: No write permission in output directory '{out_dir}'.", file=sys.stderr)
         sys.exit(1)
     
-    # Parse the KofamScan result file and output a list of selected KO numbers
-    parse_kofamscan_result_file(args.input_file, args.output_file, args.top, args.detail, args.detail_top, args.min_score_ratio, args.gene)
+    # Parse the KofamScan result file and output three files
+    parse_kofamscan_result_file(args.input_file, args.output_file, args.top, args.min_score_ratio)
 
 
 if __name__ == "__main__":

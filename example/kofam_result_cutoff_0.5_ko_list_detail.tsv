@@ -36,7 +36,7 @@ Y	1		WP_010808940.1	K01996	316.33	306.3	1.6e-91	"branched-chain amino acid trans
 	9		WP_010808940.1	K02028	398.20	170.2	3.1e-50	"polar amino acid transport system ATP-binding protein [EC:7.4.2.1]"
 	10		WP_010808940.1	K06861	247.70	166.1	3.9e-49	"lipopolysaccharide export system ATP-binding protein [EC:7.5.2.5]"
 ----------------------------------------------------------------------------------------------------
-Y	1		WP_010808978.1	K06167	147.57	69.5	1.1e-19	"phosphoribosyl 1,2-cyclic phosphate phosphodiesterase [EC:3.1.4.55]"
+	1		WP_010808978.1	K06167	147.57	69.5	1.1e-19	"phosphoribosyl 1,2-cyclic phosphate phosphodiesterase [EC:3.1.4.55]"
 	2		WP_010808978.1	K06897	84.40	43.6	6e-12	"7,8-dihydropterin-6-yl-methyl-4-(beta-D-ribofuranosyl)aminobenzene 5'-phosphate synthase [EC:2.5.1.105]"
 	3		WP_010808978.1	K17837	145.47	41.9	2.6e-11	"metallo-beta-lactamase class B [EC:3.5.2.6]"
 	4		WP_010808978.1	K00784	86.43	38.5	1.6e-10	"ribonuclease Z [EC:3.1.26.11]"
