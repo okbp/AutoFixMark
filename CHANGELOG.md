@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.2] - 2025-01-27
+
+### Changed
+- `kofamscan_parser.py` now always outputs 3 files: `<output>.tsv` (KO list), `<output>_gene.tsv` (gene details), and `<output>_detail.tsv` (detail view)
+- Removed `--gene`, `--detail`, and `--detail-top` options (functionality is now automatic)
+
 ## [1.0.1] - 2025-12-29
 
 ### Added
@@ -9,7 +15,7 @@ All notable changes to this project will be documented in this file.
 - `--gene` option in `kofamscan_parser.py` for outputting KO numbers with gene details (threshold, score, E-value, mark)
 
 
-## [1.0.0] - 2025-08/20
+## [1.0.0] - 2025-08-20
 
 ### Added
 - Initial release
